@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd">
+	
+	<!-- MySet ms = new MySet();
+		 ms.setSet( set ); -->
+	<bean id="ms" class="ex.MySet">
+		<property name="set">
+			<!-- new HashSet() 
+				참고 : set은 인터페이스기 때문에 메모리 할당이 불가능하다.
+				구형할수 있는 대표적인 set이 hashset -->
+			<set>
+				<!-- set.add("서울"); -->
+				<value>서울</value>
+				<!-- set.add("대전"); -->
+				<value>대전</value>
+			</set>
+		</property>	
+	</bean>
+	
+	<!-- MyList ml = new MyList();
+	 	 ml.setList( list ) -->
+	<bean id="mlist" class="ex.MyList">
+		<property name="list">
+			<list>
+			 	<value>사과</value>
+			 	<value>배</value>
+			</list>		
+		</property>
+	</bean>
+	
+	<!-- MyMap mm = new MyMap();
+		 mm.setMap( map ) -->
+	<bean id="mMap" class="ex.MyMap">
+		<property name="map">
+			<map>
+				<entry key="hong" value="1111"/>
+				<entry key="kim" value="2222"/>
+			</map>
+		</property>
+	</bean>	
+</beans>
