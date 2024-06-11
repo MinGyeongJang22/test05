@@ -39,13 +39,13 @@ public class SawonController {
 		return "redirect:list.do";
 	}
 	
-	@RequestMapping("delete.do")
+	@RequestMapping("/delete.do")
 	public String delete(int sabun) {
 		int res = sawon_dao.delete(sabun);
 		return "redirect:list.do";
 	}
 	
-	@RequestMapping("modify_form.do")
+	@RequestMapping("/modify_form.do")
 	public String selectOne(int sabun, Model model) {
 		SawonVO vo = sawon_dao.selectOne(sabun);
 		model.addAttribute("vo", vo);
@@ -53,7 +53,7 @@ public class SawonController {
 		return VIEW_PATH + "modify_form.jsp";
 	}
 	
-	@RequestMapping("update.do")
+	@RequestMapping("/update.do")
 	public String update(SawonVO vo, int before_sabun) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("vo", vo);
