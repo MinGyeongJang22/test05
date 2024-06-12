@@ -1,15 +1,19 @@
 package com.kh.vs;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import common.Common;
 import dao.VisitDAO;
@@ -20,6 +24,12 @@ import vo.VisitVO;
 @Controller
 public class VisitController {
 	
+	@Autowired
+	ServletContext app;
+	
+	@Autowired
+	HttpServletRequest request;
+	
 	VisitDAO visit_dao;
 	
 	public void setVisit_dao(VisitDAO visit_dao) {
@@ -28,10 +38,9 @@ public class VisitController {
 	
 	//전채 목록 보기
 	@RequestMapping(value = {"/", "list.do"})
-	public String list(Model model, HttpServletRequest request) {
+	public String list(Model model, String page) {
 		//페이징---------------------------------------------------------- 
 		int nowPage = 1;
-		String page = request.getParameter("page");
 		//page 파라미터가 있을 경우
 		if(page != null && !page.isEmpty()) {
 			nowPage = Integer.parseInt(page);
@@ -61,8 +70,8 @@ public class VisitController {
 	}
 	
 	//새글 추가
-	@RequestMapping("/update.do")
-	public String update(VisitVO vo, HttpServletRequest request) {
+	@RequestMapping("/insert.do")
+	public String update(VisitVO vo) {
 		String ip = request.getRemoteAddr();
 		vo.setIp(ip);
 		
@@ -70,7 +79,29 @@ public class VisitController {
 		String encodePwd = Common.SecurePwd.encodePwd(vo.getPwd());
 		vo.setPwd(encodePwd); //암호화된 비밀번호로 vo객체 갱신
 		
-		int res = visit_dao.insert(vo);
+		String webPath = "/resources/upload/";
+		//upload까지의 절대 경로를 가져온다.
+		String savePath = app.getRealPath(webPath);
+		System.out.println(savePath);
+		
+		//업로드된 파일 정보
+		MultipartFile photo = vo.getPhoto();
+		
+		String filename = "no_file";
+		if(!photo.isEmpty()) {
+			//업로드 된 실제 파일명
+			filename = photo.getOriginalFilename();
+			
+			//파일을 저장할 경로 생성 
+			File savefile = new File(savePath); //절대 경로
+			
+			if(!savefile.exists()) {
+				savefile.mkdirs();
+			}
+		}
+		
+		
+		visit_dao.insert(vo);
 		return "redirect:list.do";
 	}
 	
@@ -131,7 +162,8 @@ public class VisitController {
 		
 		//글 수정
 		@RequestMapping("/modify_fin.do")
-		public String modify(VisitVO vo, HttpServletRequest request) {
+		@ResponseBody
+		public String modify(VisitVO vo) {
 			String ip = request.getRemoteAddr();
 			vo.setIp(ip);
 			

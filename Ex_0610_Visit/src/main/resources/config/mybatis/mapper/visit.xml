@@ -10,14 +10,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		where no BETWEEN #{start} and #{end}
 	</select>
 	<!-- 방명록 글쓰기 -->
-	<insert id="visit_update" parameterType="visit">
+	<insert id="visit_insert" parameterType="visit">
 		insert into VISIT values(
 				seq_visit_idx.nextVal,
 				#{name},
 				#{content},
 				#{pwd},
 				#{ip},
-				sysdate
+				sysdate,
+				#{filename}
 				)
 	</insert>
 	

@@ -19,8 +19,7 @@
 				
 				//유효성 체크 생략
 				
-				f.method = "post";
-				f.action="update.do";
+				f.action="insert.do";
 				f.submit();				
 			}
 		</script>
@@ -28,7 +27,7 @@
 	</head>
 	
 	<body>
-		<form>
+		<form method="post" enctype="multipart/form-data">
 			<table border="1" align="center">
 				<caption>::새 글 등록::</caption>
 				<tr>
@@ -42,6 +41,10 @@
 				<tr>
 					<th>비밀번호</th>			
 					<td><input name="pwd" type="password"> </td>			
+				</tr>
+				<tr>
+					<th>첨부파일</th>				
+					<td><input type="file" name="photo"></td>				
 				</tr>
 				<tr>
 					<td colspan="2" align="center">

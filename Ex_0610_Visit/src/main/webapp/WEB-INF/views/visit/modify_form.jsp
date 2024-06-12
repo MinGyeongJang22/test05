@@ -12,7 +12,7 @@
 				//유효성 체크 해야함
 				
 				let url = "modify_fin.do";
-				let param = "idx="f.idx.value+"&name="f.name.value+
+				let param = "idx="+f.idx.value+"&name="+f.name.value+
 							"&content="+f.content.value+"&pwd="+f.pwd.value;
 				sendRequest(url, param, resultFn, "post");
 			}

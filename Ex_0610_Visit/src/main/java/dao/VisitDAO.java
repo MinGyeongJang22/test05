@@ -21,7 +21,7 @@ public class VisitDAO {
 	}
 	//새 방명록 작성
 	public int insert(VisitVO vo) {
-		int res = sqlSession.update("v.visit_update", vo);
+		int res = sqlSession.update("v.visit_insert", vo);
 		return res;
 	}
 	//방명록 수 조회
